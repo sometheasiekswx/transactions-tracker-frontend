@@ -4,7 +4,7 @@ import {authConfig} from './auth.config';
 import {z} from 'zod';
 import type {User} from '@/app/lib/definitions';
 import {users} from "@/app/lib/placeholder-data";
-import axiosAuthService from "@/app/lib/axiosAuthService";
+import axiosInstance from "@/app/lib/axiosInstance";
 
 async function getUser(email: string): Promise<User | undefined> {
     try {
@@ -18,7 +18,7 @@ async function getUser(email: string): Promise<User | undefined> {
 
 export async function verifyCookie() {
     try {
-        const response = await axiosAuthService.get('/verify-cookie');
+        const response = await axiosInstance.get('/verify-cookie');
         if (response){
             console.log(response.data);
         }
@@ -32,6 +32,7 @@ export async function verifyCookie() {
     }
 }
 
+
 export const {auth, signIn, signOut} = NextAuth({
     ...authConfig, providers: [Credentials({
         async authorize(credentials) {
@@ -41,12 +42,13 @@ export const {auth, signIn, signOut} = NextAuth({
 
             if (parsedCredentials.success) {
                 const {email, password} = parsedCredentials.data;
-                const response  = await axiosAuthService.post('/login', {
+                const response  = await axiosInstance.post('/login', {
                     email,password
                 }, {withCredentials: true});
 
                 const setCookieHeader = response.headers['set-cookie'];
-                console.log(setCookieHeader);
+                // res.setHeader('Set-Cookie', setCookieHeader)
+                // console.log(setCookieHeader);
 
                 if (response.status !== 200) return null
 

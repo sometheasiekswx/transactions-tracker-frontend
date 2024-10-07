@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import {authConfig} from './auth.config';
 import { NextResponse } from 'next/server';
-import axiosAuthService from "./app/lib/axiosAuthService";
+import axiosInstance from "./app/lib/axiosInstance";
 import {verifyCookie} from "@/auth";  // Assuming this is the function that verifies cookie
 
 // export default NextAuth(authConfig).auth;
