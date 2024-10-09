@@ -2,11 +2,12 @@
 // It describes the shape of the data, and what data type each property should accept.
 // For simplicity of teaching, we're manually defining these types.
 // However, these types are generated automatically if you're using an ORM such as Prisma.
+import {string} from "zod";
+
 export type User = {
   id: string;
   name: string;
   email: string;
-  password: string;
 };
 
 export type Customer = {
@@ -38,6 +39,17 @@ export type LatestInvoice = {
   email: string;
   amount: string;
 };
+
+export type Transaction = {
+  _id: string;
+  userId: String;
+  date: Date;
+  description: String;
+  amount: Number;
+  createdAt?: Date; // Optional because Mongoose handles this automatically
+  updatedAt?: Date; // Optional because Mongoose handles this automatically
+  _v: number;
+}
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
 export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
