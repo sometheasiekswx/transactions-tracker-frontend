@@ -12,7 +12,6 @@ import {Suspense} from "react";
 import LatestTransactions from "@/app/ui/dashboard/latest-transactions";
 
 export default async function Page() {
-    // console.log(cookies().getAll());
     return (<main>
         <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
             Dashboard
@@ -22,7 +21,7 @@ export default async function Page() {
                 <CardWrapper/>
             </Suspense>
         </div>
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+        <div className="mt-6 grid grid-cols-1 gap-6">
             <Suspense fallback={<LatestTransactionsSkeleton/>}>
                 <LatestTransactions/>
             </Suspense>
