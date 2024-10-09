@@ -21,7 +21,7 @@ export const formatDateToLocal = (dateStr: string, locale: string = 'en-US',) =>
     return formatter.format(date);
 };
 
-export const formatDateToString = (dateStr: Date, locale: string = 'en-US',) => {
+export const formatDateToString = (dateStr: Date) => {
     const date = new Date(dateStr);
     const day = date.getDate();
     const daySuffix = getDaySuffix(day);
@@ -31,6 +31,16 @@ export const formatDateToString = (dateStr: Date, locale: string = 'en-US',) => 
 
     return `${weekday} ${day}${daySuffix} ${month} ${year}`;
 
+};
+
+export const formatDateToStringShort = (dateStr: Date) => {
+    const date = new Date(dateStr);
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', {month: 'short'});
+    // const month = date.toLocaleString('en-US', {month: 'short'});
+    const year = date.getFullYear().toString().slice(-2);
+
+    return `${day}/${month}/${year}`;
 };
 
 function getDaySuffix(day: number): string {

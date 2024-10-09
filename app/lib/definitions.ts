@@ -48,6 +48,7 @@ export type Transaction = {
   amount: Number;
   createdAt?: Date; // Optional because Mongoose handles this automatically
   updatedAt?: Date; // Optional because Mongoose handles this automatically
+  status: 'Paid' | 'Unpaid' | 'Pending';
   _v: number;
 }
 

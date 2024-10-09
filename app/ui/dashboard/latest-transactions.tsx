@@ -2,16 +2,16 @@ import {ArrowPathIcon} from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import {lusitana} from '@/app/ui/fonts';
 import {Transaction} from '@/app/lib/definitions';
-import {fetchLatestTransactions} from '@/app/lib/data';
 import {formatDateToString, formatTransactionCurrency} from '@/app/lib/utils';
+import {fetchAllTransactions} from "@/app/api/transactions";
 
 export default async function LatestTransactions() {
-    const latestTransactions: Transaction[] = await fetchLatestTransactions();
+    const {transactions} = await fetchAllTransactions('?page=1&limit=5');
 
     return (<div className="flex w-full flex-col md:col-span-4">
         <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>Latest Invoices</h2>
         <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
-            {latestTransactions?.length ? (<TransactionList transactions={latestTransactions}/>) : (<NoTransactions/>)}
+            {transactions?.length ? (<TransactionList transactions={transactions}/>) : (<NoTransactions/>)}
         </div>
     </div>);
 }

@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      spacing: {
+        '3': '12px',
+        '3.5': '14px', // Add this custom size to make it in-between
+      },
       gridTemplateColumns: {
         '13': 'repeat(13, minmax(0, 1fr))',
       },

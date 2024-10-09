@@ -12,6 +12,7 @@ axiosTransactionsTracker.interceptors.request.use(config => {
     const authjsSessionToken = cookieStore.get('jwt.cookie')
 
     if (authjsSessionToken !== undefined) {
+        console.log("Setting cookie on axios header")
         config.headers['Cookie'] = authjsSessionToken['value'];
     }
 

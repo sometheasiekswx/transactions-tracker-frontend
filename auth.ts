@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import {authConfig} from './auth.config';
 import {z} from 'zod';
-import axiosAuth from "@/app/lib/axiosAuth";
+import axiosAuth from "@/app/lib/axios/axiosAuth";
 import {cookies} from "next/headers";
 
 async function signInUser(email: string, password: string): Promise<any> {
