@@ -2,36 +2,27 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import {authConfig} from './auth.config';
 import {z} from 'zod';
-import type {User} from '@/app/lib/definitions';
-import {users} from "@/app/lib/placeholder-data";
-import axiosInstance from "@/app/lib/axiosInstance";
+import axiosAuth from "@/app/lib/axiosAuth";
+import {cookies} from "next/headers";
 
-async function getUser(email: string): Promise<User | undefined> {
+async function signInUser(email: string, password: string): Promise<any> {
     try {
-        const user = users.filter((user: User) => user.email === email);
-        return user[0];
-    } catch (error) {
-        console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
-    }
-}
-
-export async function verifyCookie() {
-    try {
-        const response = await axiosInstance.get('/verify-cookie');
-        if (response){
-            console.log(response.data);
-        }
+        let data = JSON.stringify({
+            "email": email, "password": password
+        });
+        const response = await axiosAuth.post('/login', data, {headers: {'Content-Type': 'application/json'}})
         if (response.status === 200) {
-
-            return response.data.user;  // Token is valid, return user data
+            return {user: response.data['user'], 'cookie': response.headers['set-cookie']![0]}
+        } else {
+            console.error(response);
+            return undefined;
         }
     } catch (error) {
-        console.error('Token verification failed:', error);
-        return null;  // Token is invalid or expired
+        console.error('Failed to sign in user:', error);
+        throw new Error('Failed to sign in user.');
     }
-}
 
+}
 
 export const {auth, signIn, signOut} = NextAuth({
     ...authConfig, providers: [Credentials({
@@ -42,23 +33,15 @@ export const {auth, signIn, signOut} = NextAuth({
 
             if (parsedCredentials.success) {
                 const {email, password} = parsedCredentials.data;
-                const response  = await axiosInstance.post('/login', {
-                    email,password
-                }, {withCredentials: true});
-
-                const setCookieHeader = response.headers['set-cookie'];
-                // res.setHeader('Set-Cookie', setCookieHeader)
-                // console.log(setCookieHeader);
-
-                if (response.status !== 200) return null
-
-                if (!response.data.user) return null;
-
-                return response.data.user;
+                const data = await signInUser(email, password)
+                if (!data) {
+                    return null;
+                }
+                cookies().set('jwt.cookie', data.cookie);
+                return data.user;
             }
 
             console.log('Invalid credentials');
-
             return null;
         },
     }),],

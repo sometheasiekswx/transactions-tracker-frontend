@@ -1,13 +1,14 @@
 import {sql} from '@vercel/postgres';
-import {CustomerField, CustomersTableType, InvoiceForm, InvoicesTable, LatestInvoice, Revenue,} from './definitions';
+import {CustomerField, CustomersTableType, InvoiceForm, LatestInvoice, Revenue,} from './definitions';
 import {formatCurrency} from './utils';
 import {customers, invoices, revenue} from "@/app/lib/placeholder-data";
+import axiosTransactionsTracker from "@/app/lib/axiosTransactionsTracker";
 
 export async function fetchRevenue() {
     try {
         const startTime = performance.now();
 
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
 
         // const data = await sql<Revenue>`SELECT * FROM revenue`;
         const data: Revenue[] = revenue;
@@ -20,6 +21,26 @@ export async function fetchRevenue() {
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch revenue data.');
+    }
+}
+
+export async function fetchLatestTransactions() {
+    try {
+        const startTime = performance.now();
+
+        const response = await axiosTransactionsTracker.get('/transactions/all?page=1&limit=5')
+
+        const endTime = performance.now();
+        const duration = endTime - startTime;
+        console.log(`fetchLatestTransactions completed in ${duration.toFixed(2)} milliseconds`);
+
+
+        return response.data.transactions;
+    } catch (error) {
+        if (error.status == 404) return [];
+
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch the latest transactions.');
     }
 }
 
@@ -39,7 +60,7 @@ export async function fetchLatestInvoices() {
 
         const startTime = performance.now();
 
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        // await new Promise((resolve) => setTimeout(resolve, 3000));
 
         const data: LatestInvoice[] = [];
         for (const invoice of invoices.splice(0, 5)) {
@@ -97,7 +118,7 @@ export async function fetchCardData() {
 
         const startTime = performance.now();
 
-        await new Promise((resolve) => setTimeout(resolve, 250));
+        // await new Promise((resolve) => setTimeout(resolve, 250));
 
         const numberOfInvoices = invoices.length;
         const numberOfCustomers = customers.length;
@@ -165,14 +186,8 @@ export async function fetchFilteredInvoices(query: string, currentPage: number,)
                     image_url: customer?.image_url || '',
                 };
             })
-            .filter(({ amount, date, status, name, email }) =>
-                // Search for the query in the invoice data
-                name.toLowerCase().includes(normalizedQuery) ||
-                email.toLowerCase().includes(normalizedQuery) ||
-                amount.toString().includes(normalizedQuery) ||
-                date.includes(normalizedQuery) ||
-                status.toLowerCase().includes(normalizedQuery)
-            )
+            .filter(({amount, date, status, name, email}) => // Search for the query in the invoice data
+                name.toLowerCase().includes(normalizedQuery) || email.toLowerCase().includes(normalizedQuery) || amount.toString().includes(normalizedQuery) || date.includes(normalizedQuery) || status.toLowerCase().includes(normalizedQuery))
             .sort((a, b) => {
                 const dateA = new Date(a.date).getTime();
                 const dateB = new Date(b.date).getTime();
@@ -194,18 +209,18 @@ export async function fetchFilteredInvoices(query: string, currentPage: number,)
 
 export async function fetchInvoicesPages(query: string) {
     try {
-  //       const count = await sql`SELECT COUNT(*)
-  //   FROM invoices
-  //   JOIN customers ON invoices.customer_id = customers.id
-  //   WHERE
-  //     customers.name ILIKE ${`%${query}%`} OR
-  //     customers.email ILIKE ${`%${query}%`} OR
-  //     invoices.amount::text ILIKE ${`%${query}%`} OR
-  //     invoices.date::text ILIKE ${`%${query}%`} OR
-  //     invoices.status ILIKE ${`%${query}%`}
-  // `;
-  //
-  //       const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+        //       const count = await sql`SELECT COUNT(*)
+        //   FROM invoices
+        //   JOIN customers ON invoices.customer_id = customers.id
+        //   WHERE
+        //     customers.name ILIKE ${`%${query}%`} OR
+        //     customers.email ILIKE ${`%${query}%`} OR
+        //     invoices.amount::text ILIKE ${`%${query}%`} OR
+        //     invoices.date::text ILIKE ${`%${query}%`} OR
+        //     invoices.status ILIKE ${`%${query}%`}
+        // `;
+        //
+        //       const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
         const normalizedQuery = query.toLowerCase();
         const filteredInvoices = invoices
             .map(invoice => {
@@ -213,18 +228,12 @@ export async function fetchInvoicesPages(query: string) {
                 const customer = customers.find(cust => cust.id === invoice.customer_id);
 
                 return {
-                    ...invoice,
-                    customer_name: customer?.name || '',
-                    customer_email: customer?.email || '',
+                    ...invoice, customer_name: customer?.name || '', customer_email: customer?.email || '',
                 };
             })
-            .filter(({ amount, date, status, customer_name, customer_email }) =>
-                customer_name.toLowerCase().includes(normalizedQuery) ||
-                customer_email.toLowerCase().includes(normalizedQuery) ||
-                amount.toString().includes(normalizedQuery) ||
-                date.includes(normalizedQuery) ||
-                status.toLowerCase().includes(normalizedQuery)
-            );
+            .filter(({
+                         amount, date, status, customer_name, customer_email
+                     }) => customer_name.toLowerCase().includes(normalizedQuery) || customer_email.toLowerCase().includes(normalizedQuery) || amount.toString().includes(normalizedQuery) || date.includes(normalizedQuery) || status.toLowerCase().includes(normalizedQuery));
 
         // Calculate the total number of pages
         const totalPages = Math.ceil(filteredInvoices.length / ITEMS_PER_PAGE);
@@ -310,3 +319,4 @@ export async function fetchFilteredCustomers(query: string) {
         throw new Error('Failed to fetch customer table.');
     }
 }
+

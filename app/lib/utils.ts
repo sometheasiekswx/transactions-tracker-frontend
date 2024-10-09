@@ -6,6 +6,12 @@ export const formatCurrency = (amount: number) => {
     });
 };
 
+export const formatTransactionCurrency = (amount: Number) => {
+    return (amount).toLocaleString('en-US', {
+        style: 'currency', currency: 'AUD',
+    });
+};
+
 export const formatDateToLocal = (dateStr: string, locale: string = 'en-US',) => {
     const date = new Date(dateStr);
     const options: Intl.DateTimeFormatOptions = {
@@ -14,6 +20,34 @@ export const formatDateToLocal = (dateStr: string, locale: string = 'en-US',) =>
     const formatter = new Intl.DateTimeFormat(locale, options);
     return formatter.format(date);
 };
+
+export const formatDateToString = (dateStr: Date, locale: string = 'en-US',) => {
+    const date = new Date(dateStr);
+    const day = date.getDate();
+    const daySuffix = getDaySuffix(day);
+    const weekday = date.toLocaleString('en-US', {weekday: 'short'});
+    const month = date.toLocaleString('en-US', {month: 'short'});
+    const year = date.getFullYear();
+
+    return `${weekday} ${day}${daySuffix} ${month} ${year}`;
+
+};
+
+function getDaySuffix(day: number): string {
+    if (day >= 11 && day <= 13) {
+        return 'th';
+    }
+    switch (day % 10) {
+        case 1:
+            return 'st';
+        case 2:
+            return 'nd';
+        case 3:
+            return 'rd';
+        default:
+            return 'th';
+    }
+}
 
 export const generateYAxis = (revenue: Revenue[]) => {
     // Calculate what labels we need to display on the y-axis
