@@ -8,7 +8,7 @@ export async function fetchAllTransactions(queryParams: string) {
 
         const endTime = performance.now();
         const duration = endTime - startTime;
-        console.log(`fetchLatestTransactions completed in ${duration.toFixed(2)} milliseconds`);
+        console.log(`fetchAllTransactions completed in ${duration.toFixed(2)} milliseconds`);
 
         return response.data;
     } catch (error) {

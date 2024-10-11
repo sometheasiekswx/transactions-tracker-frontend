@@ -41,7 +41,7 @@ export type LatestInvoice = {
 };
 
 export type Transaction = {
-  _id: string;
+  _id: string; // Will be created on the database
   userId: String;
   date: Date;
   description: String;
@@ -49,7 +49,6 @@ export type Transaction = {
   createdAt?: Date; // Optional because Mongoose handles this automatically
   updatedAt?: Date; // Optional because Mongoose handles this automatically
   status: 'Paid' | 'Unpaid' | 'Pending';
-  _v: number;
 }
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function

@@ -14,6 +14,10 @@ export const authConfig = {
                 return Response.redirect(new URL('/dashboard', nextUrl));
             }
             return true;
+        }, async session({session, user, token}) {
+            console.log('session', session);
+            console.log('token', token);
+            return session
         },
-    }, providers: [], // Add providers with an empty array for now
+    }, providers: [],
 } satisfies NextAuthConfig;
