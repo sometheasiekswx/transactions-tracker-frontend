@@ -1,10 +1,10 @@
-import {DeleteInvoice, UpdateInvoice} from '@/app/ui/invoices/buttons';
-import InvoiceStatus from '@/app/ui/transactions/status';
+import TransactionStatus from '@/app/ui/transactions/status';
 import {formatDateToString, formatDateToStringShort, formatTransactionCurrency} from '@/app/lib/utils';
 import {Transaction} from "@/app/lib/definitions";
 import {ArrowPathIcon} from "@heroicons/react/24/outline";
+import {RemoveTransaction, UpdateTransaction} from "@/app/ui/transactions/buttons";
 
-export default async function InvoicesTable({transactions,}: { transactions: Transaction[]; }) {
+export default async function TransactionsTable({transactions}: { transactions: Transaction[] }) {
     return (<div className="mt-6 flow-root">
         <div className="inline-block min-w-full align-middle">
             <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
@@ -19,7 +19,7 @@ export default async function InvoicesTable({transactions,}: { transactions: Tra
                                     <p>{transaction.description}</p>
                                 </div>
                             </div>
-                            <InvoiceStatus status={transaction.status}/>
+                            <TransactionStatus status={transaction.status} id={transaction._id}/>
                         </div>
                         <div className="flex w-full items-center justify-between pt-4">
                             <div>
@@ -35,8 +35,8 @@ export default async function InvoicesTable({transactions,}: { transactions: Tra
                                 </div>
                             </div>
                             <div className="flex justify-end gap-2">
-                                <UpdateInvoice id={transaction._id}/>
-                                <DeleteInvoice id={transaction._id}/>
+                                <UpdateTransaction id={transaction._id}/>
+                                <RemoveTransaction id={transaction._id}/>
                             </div>
                         </div>
                     </div>))}
@@ -78,12 +78,12 @@ export default async function InvoicesTable({transactions,}: { transactions: Tra
                             {formatDateToString(transaction.date)}
                         </td>
                         <td className="whitespace-nowrap px-3 py-3">
-                            <InvoiceStatus status={transaction.status}/>
+                            <TransactionStatus status={transaction.status} id={transaction._id}/>
                         </td>
                         <td className="whitespace-nowrap py-3 pl-6 pr-3">
                             <div className="flex justify-end gap-3">
-                                <UpdateInvoice id={transaction._id}/>
-                                <DeleteInvoice id={transaction._id}/>
+                                <UpdateTransaction id={transaction._id}/>
+                                <RemoveTransaction id={transaction._id}/>
                             </div>
                         </td>
                     </tr>))}

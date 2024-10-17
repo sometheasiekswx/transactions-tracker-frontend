@@ -24,22 +24,6 @@ async function signInUser(email: string, password: string): Promise<any> {
 
 }
 
-function getMaxAgeFromCookie(cookie: string) {
-    const maxAgeMatch = cookie.match(/Max-Age=(\d+)/);
-    return maxAgeMatch ? parseInt(maxAgeMatch[1], 10) : null;
-}
-
-// function getExpiresFromCookie(cookie: string) {
-//     const maxAgeMatch = cookie.match(/Expires=(\d+)/);
-//     return maxAgeMatch ? parseInt(maxAgeMatch[1], 10) : null;
-// }
-
-function getExpiresFromCookie(cookie: string) {
-    const expiresMatch = cookie.match(/Expires=([^;]+)/);
-    return expiresMatch ? new Date(expiresMatch[1]) : null;
-}
-
-
 export const {auth, signIn, signOut} = NextAuth({
     ...authConfig, providers: [Credentials({
         async authorize(credentials) {
@@ -55,13 +39,6 @@ export const {auth, signIn, signOut} = NextAuth({
                 }
 
                 cookies().set('jwt.cookie', data.cookie);
-                const maxAge = getMaxAgeFromCookie(data.cookie);
-                const expires = getExpiresFromCookie(data.cookie);
-
-                console.log(data.cookie);
-
-                console.log('maxAge:', maxAge)
-                console.log('expires:', expires)
 
                 return data.user;
             }

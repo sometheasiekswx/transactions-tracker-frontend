@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import {
     CalendarIcon,
@@ -8,11 +10,14 @@ import {
     NoSymbolIcon,
 } from '@heroicons/react/24/outline';
 import {Button} from '@/app/ui/button';
-import {createTransaction} from '@/app/lib/actions';
+import {editTransaction} from '@/app/lib/actions';
+import {Transaction} from "@/app/lib/definitions";
 
 
-export default function CreateForm() {
-    return (<form action={createTransaction}>
+export default function EditForm({transaction}: { transaction: Transaction }) {
+    const editTransactionWithId = editTransaction.bind(null, transaction._id);
+
+    return (<form action={editTransactionWithId}>
         <div className="rounded-md bg-gray-50 p-4 md:p-6">
             {/* Date Picker */}
             <div className="mb-4">
@@ -24,6 +29,7 @@ export default function CreateForm() {
                         type="date"
                         id="date"
                         name="date"
+                        defaultValue={String(transaction.date)}
                         className="block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 pr-3 text-sm outline-2 placeholder-gray-500 transition duration-150 ease-in-out focus:border-blue-500 focus:ring-blue-500"
                     />
                     <CalendarIcon
@@ -42,7 +48,7 @@ export default function CreateForm() {
                             id="description"
                             name="description"
                             type="text"
-                            required={true}
+                            defaultValue={transaction.description}
                             placeholder="Enter a description"
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                         />
@@ -63,8 +69,9 @@ export default function CreateForm() {
                             id="amount"
                             name="amount"
                             type="number"
-                            step="1"
-                            required={true}
+                            step="0.01"
+                            defaultValue={transaction.amount}
+
                             placeholder="Enter AUD amount"
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                         />
@@ -87,7 +94,8 @@ export default function CreateForm() {
                                 name="status"
                                 type="radio"
                                 value="Pending"
-                                checked
+                                defaultChecked={transaction.status === "Pending"}
+                                // checked
                                 className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                             />
                             <label
@@ -103,6 +111,7 @@ export default function CreateForm() {
                                 name="status"
                                 type="radio"
                                 value="Paid"
+                                defaultChecked={transaction.status === "Paid"}
                                 className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                             />
                             <label
@@ -118,6 +127,7 @@ export default function CreateForm() {
                                 name="status"
                                 type="radio"
                                 value="Unpaid"
+                                defaultChecked={transaction.status === "Unpaid"}
                                 className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                             />
                             <label
@@ -138,7 +148,7 @@ export default function CreateForm() {
             >
                 Cancel
             </Link>
-            <Button type="submit">Create transaction</Button>
+            <Button type="submit">Edit transaction</Button>
         </div>
     </form>);
 }

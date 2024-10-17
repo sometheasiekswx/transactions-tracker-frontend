@@ -1,5 +1,7 @@
 import type {NextAuthConfig} from 'next-auth';
 
+const sessionMaxAge = 20 * 60 * 60; // 20hr
+
 export const authConfig = {
     pages: {
         signIn: '/login',
@@ -15,9 +17,9 @@ export const authConfig = {
             }
             return true;
         }, async session({session, user, token}) {
-            console.log('session', session);
-            console.log('token', token);
             return session
         },
-    }, providers: [],
+    }, providers: [], session: {
+        strategy: 'jwt', maxAge: sessionMaxAge
+    },
 } satisfies NextAuthConfig;

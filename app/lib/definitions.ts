@@ -42,10 +42,10 @@ export type LatestInvoice = {
 
 export type Transaction = {
   _id: string; // Will be created on the database
-  userId: String;
+  userId: string;
   date: Date;
-  description: String;
-  amount: Number;
+  description: string;
+  amount: number;
   createdAt?: Date; // Optional because Mongoose handles this automatically
   updatedAt?: Date; // Optional because Mongoose handles this automatically
   status: 'Paid' | 'Unpaid' | 'Pending';

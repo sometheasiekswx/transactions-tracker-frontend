@@ -13,7 +13,7 @@ export async function fetchRevenue() {
 
         const endTime = performance.now();
         const duration = endTime - startTime;
-        console.log(`fetchRevenue completed in ${duration.toFixed(2)} milliseconds`);
+        console.log(`fetchRevenue completed in ${duration.toFixed(2)} ms`);
 
         return data;
     } catch (error) {
@@ -44,7 +44,7 @@ export async function fetchLatestInvoices() {
 
         const endTime = performance.now();
         const duration = endTime - startTime;
-        console.log(`fetchLatestInvoices completed in ${duration.toFixed(2)} milliseconds`);
+        console.log(`fetchLatestInvoices completed in ${duration.toFixed(2)} ms`);
 
         return data;
     } catch (error) {
@@ -69,7 +69,7 @@ export async function fetchCardData() {
         const endTime = performance.now();
         const duration = endTime - startTime;
 
-        console.log(`fetchCardData completed in ${duration.toFixed(2)} milliseconds`);
+        console.log(`fetchCardData completed in ${duration.toFixed(2)} ms`);
 
         return data;
     } catch (error) {

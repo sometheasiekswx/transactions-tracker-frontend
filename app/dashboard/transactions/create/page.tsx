@@ -1,5 +1,5 @@
-import Form from '@/app/ui/transactions/create-form';
-import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+import CreateForm from '@/app/ui/transactions/create-form';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export default async function Page() {
     return (
@@ -14,7 +14,7 @@ export default async function Page() {
                     },
                 ]}
             />
-            <Form />
+            <CreateForm />
         </main>
     );
 }
