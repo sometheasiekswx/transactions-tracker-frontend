@@ -1,6 +1,6 @@
 "use client"; // Ensure this is a client-side component in Next.js
 
-import {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CheckIcon, ClockIcon, NoSymbolIcon} from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import {editTransactionStatus} from "@/app/lib/actions"; // Import your backend function
@@ -13,7 +13,9 @@ export default function TransactionStatus({status, id}: { status: string, id: st
     const [error, setError] = useState<string | null>(null); // Error handling
 
     // Function to handle status change on button click
-    const handleStatusChange = async () => {
+    const handleStatusChange = async (event: React.MouseEvent) => {
+        event.stopPropagation();
+
         const currentIndex = statusOptions.indexOf(currentStatus);
         const nextIndex = (currentIndex + 1) % statusOptions.length; // Cycle to next status
         const newStatus = statusOptions[nextIndex];
@@ -34,6 +36,10 @@ export default function TransactionStatus({status, id}: { status: string, id: st
             setLoading(false); // End the loading state
         }
     };
+
+    useEffect(() => {
+        setCurrentStatus(status);
+    }, [status]);
 
     return (<div>
         <button

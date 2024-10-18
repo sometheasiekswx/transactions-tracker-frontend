@@ -57,12 +57,10 @@ export async function addTransaction(description: string, amount: number, status
     }
 }
 
-// export async function updateTransaction(id: string, description: string, amount: number, status: string, date: Date) {
+
 export async function updateTransaction(id: string, formData: FormData) {
     try {
         const startTime = performance.now();
-
-        console.log(formData)
 
         let data = JSON.stringify(formData);
 
@@ -73,6 +71,31 @@ export async function updateTransaction(id: string, formData: FormData) {
         const endTime = performance.now();
         const duration = endTime - startTime;
         console.log(`updateTransaction completed in ${duration.toFixed(2)} ms`);
+
+        return response;
+    } catch (error) {
+        console.error('Failed to updateTransaction:', error);
+        return {message: 'Failed to updateTransaction:' + error}
+    }
+}
+
+export async function updateTransactionsAsPaid(ids: string[]) {
+    try {
+        const startTime = performance.now();
+
+        const transactions = ids.map((id) => ({
+            _id: id, status: "Paid"
+        }));
+
+        let data = JSON.stringify(transactions);
+
+        const response = await axiosTransactionsTracker.put(`/transactions`, data, {
+            headers: {'Content-Type': 'application/json'}
+        })
+
+        const endTime = performance.now();
+        const duration = endTime - startTime;
+        console.log(`updateTransactionsAsPaid completed in ${duration.toFixed(2)} ms`);
 
         return response;
     } catch (error) {
