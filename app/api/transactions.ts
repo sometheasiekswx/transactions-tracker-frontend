@@ -12,8 +12,9 @@ export async function fetchAllTransactions(queryParams: string) {
 
         return response.data;
     } catch (error) {
-        console.error('Failed to fetchAllTransactions:', error);
-        return [];
+        const message = 'Failed to fetchAllTransactions\n' + error;
+        console.error(message);
+        throw new Error(message);
     }
 }
 
@@ -29,8 +30,9 @@ export async function fetchTransaction(id: string) {
 
         return response.data;
     } catch (error) {
-        console.error('Failed to fetchTransaction:', error);
-        return [];
+        const message = 'Failed to fetchTransaction\n' + error;
+        console.error(message);
+        throw new Error(message);
     }
 }
 
@@ -52,8 +54,9 @@ export async function addTransaction(description: string, amount: number, status
 
         return response;
     } catch (error) {
-        console.error('Failed to addTransaction:', error);
-        return {message: 'Failed to addTransaction:' + error}
+        const message = 'Failed to addTransaction\n' + error;
+        console.error(message);
+        throw new Error(message);
     }
 }
 
@@ -74,8 +77,9 @@ export async function updateTransaction(id: string, formData: FormData) {
 
         return response;
     } catch (error) {
-        console.error('Failed to updateTransaction:', error);
-        return {message: 'Failed to updateTransaction:' + error}
+        const message = 'Failed to updateTransaction\n' + error;
+        console.error(message);
+        throw new Error(message);
     }
 }
 
@@ -99,8 +103,9 @@ export async function updateTransactionsAsPaid(ids: string[]) {
 
         return response;
     } catch (error) {
-        console.error('Failed to updateTransaction:', error);
-        return {message: 'Failed to updateTransaction:' + error}
+        const message = 'Failed to updateTransactionsAsPaid\n' + error;
+        console.error(message);
+        throw new Error(message);
     }
 }
 
@@ -116,7 +121,8 @@ export async function deleteTransaction(id: string) {
 
         return response;
     } catch (error) {
-        console.error('Failed to deleteTransaction:', error);
-        return {message: 'Failed to deleteTransaction:' + error}
+        const message = 'Failed to deleteTransaction\n' + error;
+        console.error(message);
+        throw new Error(message);
     }
 }
