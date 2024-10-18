@@ -28,9 +28,11 @@ export async function createTransaction(formData: FormData) {
         // console.log('addTransaction', response.data);
         // revalidatePath('/dashboard/transactions')
         // redirect('/dashboard/transactions')
-    } else if (response && response.message) {
-        throw new Error(response.message);
-    } else {
+    }
+    // else if (response && response.message) {
+    //     throw new Error(response.message);
+    // }
+    else {
         throw new Error('Failed to addTransaction');
     }
 }
@@ -41,9 +43,11 @@ export async function removeTransaction(id: string) {
         // console.log('removeTransaction', response.data);
         revalidatePath('/dashboard/transactions')
         // redirect('/dashboard/transactions')
-    } else if (response && response.message) {
-        throw new Error(response.message);
-    } else {
+    }
+    // else if (response && response.message) {
+    //     throw new Error(response.message);
+    // }
+    else {
         throw new Error('Failed to removeTransaction');
     }
 }
@@ -54,9 +58,11 @@ export async function editTransactionStatus(id: string, status: string) {
         // console.log('editTransactionStatus', response.data);
         revalidatePath('/dashboard/transactions')
         // redirect('/dashboard/transactions')
-    } else if (response && response.message) {
-        throw new Error(response.message);
-    } else {
+    }
+    // else if (response && response.message) {
+    //     throw new Error(response.message);
+    // }
+    else {
         throw new Error('Failed to editTransactionStatus');
     }
 }
@@ -67,9 +73,11 @@ export async function editTransactionStatusAsPaid(ids: string[]) {
         console.log('editTransactionStatusAsPaid', response.data);
         revalidatePath('/dashboard/transactions')
         // redirect('/dashboard/transactions')
-    } else if (response && response.message) {
-        throw new Error(response.message);
-    } else {
+    }
+    // else if (response && response.message) {
+    //     throw new Error(response.message);
+    // }
+    else {
         throw new Error('Failed to editTransactionStatusAsPaid');
     }
 }
@@ -90,9 +98,11 @@ export async function editTransaction(id: string, formData: FormData) {
         // console.log('updateTransaction', response.data);
         revalidatePath('/dashboard/transactions')
         redirect('/dashboard/transactions')
-    } else if (response && response.message) {
-        throw new Error(response.message);
-    } else {
+    }
+    // else if (response && response.message) {
+    //     throw new Error(response.message);
+    // }
+    else {
         throw new Error('Failed to updateTransaction');
     }
 }
