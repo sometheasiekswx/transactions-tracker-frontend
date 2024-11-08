@@ -49,8 +49,8 @@ export default function TransactionsTable({transactions}: { transactions: Transa
                         {transactions?.map((transaction) => (<div
                             key={transaction._id}
                             className={`
-                            flex w-full mb-2 rounded-md bg-white p-4 cursor-pointer relative overflow-hidden 
-                            ${selectedTransactionIds.includes(transaction._id) ? 'bg-blue-50' : ''}
+                            flex w-full mb-2 rounded-md p-4 cursor-pointer relative overflow-hidden 
+                            ${selectedTransactionIds.includes(transaction._id) ? 'bg-blue-200' : 'bg-white'}
                         `}
                             onClick={() => handleRowClick(transaction._id)}
                         >
@@ -60,8 +60,7 @@ export default function TransactionsTable({transactions}: { transactions: Transa
                                     checked={selectedTransactionIds.includes(transaction._id)}
                                     onChange={() => handleCheckboxChange(transaction._id)}
                                     className={`
-                                    mr-4 rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500 
-                                    ${selectedTransactionIds.includes(transaction._id) ? 'block' : 'hidden'}
+                                    mr-4 rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500 hidden
                                 `}
                                     onClick={stopPropagation}
                                 />

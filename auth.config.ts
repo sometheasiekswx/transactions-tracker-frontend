@@ -1,6 +1,7 @@
 import type {NextAuthConfig} from 'next-auth';
 
 const sessionMaxAge = 20 * 60 * 60; // 20hr
+// const sessionMaxAge = 5; // 5s
 
 export const authConfig = {
     pages: {

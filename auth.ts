@@ -5,6 +5,9 @@ import {z} from 'zod';
 import axiosAuth from "@/app/lib/axios/axiosAuth";
 import {cookies} from "next/headers";
 
+const sessionMaxAge = 20 * 60 * 60; // 20hr
+// const sessionMaxAge = 5; // 5s
+
 async function signInUser(email: string, password: string): Promise<any> {
     try {
         let data = JSON.stringify({
@@ -21,7 +24,6 @@ async function signInUser(email: string, password: string): Promise<any> {
         console.error('Failed to sign in user:', error);
         throw new Error('Failed to sign in user.');
     }
-
 }
 
 export const {auth, signIn, signOut} = NextAuth({
@@ -38,7 +40,7 @@ export const {auth, signIn, signOut} = NextAuth({
                     return null;
                 }
 
-                cookies().set('jwt.cookie', data.cookie);
+                cookies().set('jwt.cookie', data.cookie, {maxAge: sessionMaxAge});
 
                 return data.user;
             }

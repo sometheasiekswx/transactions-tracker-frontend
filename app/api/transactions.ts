@@ -62,10 +62,7 @@ export async function addTransaction(description: string, amount: number, status
 
 
 export async function updateTransaction(id: string, formData: {
-    description?: string,
-    amount?: number,
-    status?: string,
-    date?: Date,
+    description?: string, amount?: number, status?: string, date?: Date,
 }) {
     try {
         const startTime = performance.now();

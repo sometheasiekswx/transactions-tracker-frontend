@@ -1,4 +1,4 @@
-import Pagination from '@/app/ui/invoices/pagination';
+import Pagination from '@/app/ui/transactions/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/transactions/table';
 import {lusitana} from '@/app/ui/fonts';
