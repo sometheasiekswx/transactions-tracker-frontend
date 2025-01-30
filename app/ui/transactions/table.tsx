@@ -1,10 +1,10 @@
 "use client"
 
 import React, {useState} from 'react';
-import TransactionStatus from '@/app/ui/transactions/status';
+import {TransactionStatus} from '@/app/ui/transactions/status';
 import {formatDateToString, formatTransactionCurrency} from '@/app/lib/utils';
 import {Transaction} from "@/app/lib/definitions";
-import {MarkAsPaid, RemoveTransaction, UpdateTransaction} from "@/app/ui/transactions/buttons";
+import {MarkStatus, RemoveTransaction, UpdateTransaction} from "@/app/ui/transactions/buttons";
 
 export default function TransactionsTable({transactions}: { transactions: Transaction[] }) {
     const [selectedTransactionIds, setSelectedTransactionIds] = useState<string[]>([]);
@@ -38,8 +38,9 @@ export default function TransactionsTable({transactions}: { transactions: Transa
             <div className="flex justify-end items-center gap-2" onClick={() => {
                 setSelectedTransactionIds([])
             }}>
-                <MarkAsPaid selectedTransactionIds={selectedTransactionIds}/>
-                {/*<MarkAsUnpaid/>*/}
+                <MarkStatus status={"Paid"} selectedTransactionIds={selectedTransactionIds}/>
+                <MarkStatus status={"Pending"} selectedTransactionIds={selectedTransactionIds}/>
+                <MarkStatus status={"Unpaid"} selectedTransactionIds={selectedTransactionIds}/>
             </div>
         </div>
         <div className="mt-6 flow-root">
@@ -71,7 +72,7 @@ export default function TransactionsTable({transactions}: { transactions: Transa
                                     <div className="mb-2 flex items-center">
                                         <p className="text-md font-bold">{transaction.description}</p>
                                     </div>
-                                    <TransactionStatus status={transaction.status} id={transaction._id}/>
+                                    <TransactionStatus status={transaction.status}/>
                                 </div>
                                 <div className="flex w-full items-center justify-between pt-4">
                                     <div>
@@ -143,7 +144,7 @@ export default function TransactionsTable({transactions}: { transactions: Transa
                             <td className="whitespace-nowrap px-3 py-3">{formatTransactionCurrency(transaction.amount)}</td>
                             <td className="whitespace-nowrap px-3 py-3">{formatDateToString(transaction.date)}</td>
                             <td className="whitespace-nowrap px-3 py-3">
-                                <TransactionStatus status={transaction.status} id={transaction._id}/>
+                                <TransactionStatus status={transaction.status}/>
                             </td>
                             <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                 <div className="flex justify-end gap-3">

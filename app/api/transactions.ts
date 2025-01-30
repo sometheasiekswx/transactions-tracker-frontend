@@ -1,4 +1,5 @@
 import axiosTransactionsTracker from "@/app/lib/axios/axiosTransactionsTracker";
+import {Status} from "@/app/lib/definitions";
 
 export async function fetchAllTransactions(queryParams: string) {
     try {
@@ -85,12 +86,12 @@ export async function updateTransaction(id: string, formData: {
     }
 }
 
-export async function updateTransactionsAsPaid(ids: string[]) {
+export async function updateTransactionsStatus(ids: string[], status: Status) {
     try {
         const startTime = performance.now();
 
         const transactions = ids.map((id) => ({
-            _id: id, status: "Paid"
+            _id: id, status: status
         }));
 
         let data = JSON.stringify(transactions);

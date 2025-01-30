@@ -4,9 +4,10 @@ import {signIn} from '@/auth';
 import {AuthError} from 'next-auth';
 
 import {z} from 'zod';
-import {addTransaction, deleteTransaction, updateTransaction, updateTransactionsAsPaid} from "@/app/api/transactions";
+import {addTransaction, deleteTransaction, updateTransaction, updateTransactionsStatus} from "@/app/api/transactions";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
+import {Status} from "@/app/lib/definitions";
 
 const TransactionSchema = z.object({
     description: z.string(),
@@ -25,14 +26,7 @@ export async function createTransaction(formData: FormData) {
 
     const response = await addTransaction(description, amount, status, new Date(date));
     if (response && response.data) {
-        // console.log('addTransaction', response.data);
-        // revalidatePath('/dashboard/transactions')
-        // redirect('/dashboard/transactions')
-    }
-    // else if (response && response.message) {
-    //     throw new Error(response.message);
-    // }
-    else {
+    } else {
         throw new Error('Failed to addTransaction');
     }
 }
@@ -40,45 +34,18 @@ export async function createTransaction(formData: FormData) {
 export async function removeTransaction(id: string) {
     const response = await deleteTransaction(id);
     if (response && response.data) {
-        // console.log('removeTransaction', response.data);
         revalidatePath('/dashboard/transactions')
-        // redirect('/dashboard/transactions')
-    }
-    // else if (response && response.message) {
-    //     throw new Error(response.message);
-    // }
-    else {
+    } else {
         throw new Error('Failed to removeTransaction');
     }
 }
 
-export async function editTransactionStatus(id: string, status: string) {
-    const response = await updateTransaction(id, {status: status});
+export async function editTransactionsStatus(ids: string[], status: Status) {
+    const response = await updateTransactionsStatus(ids, status);
     if (response && response.data) {
-        // console.log('editTransactionStatus', response.data);
         revalidatePath('/dashboard/transactions')
-        // redirect('/dashboard/transactions')
-    }
-    // else if (response && response.message) {
-    //     throw new Error(response.message);
-    // }
-    else {
-        throw new Error('Failed to editTransactionStatus');
-    }
-}
-
-export async function editTransactionStatusAsPaid(ids: string[]) {
-    const response = await updateTransactionsAsPaid(ids);
-    if (response && response.data) {
-        console.log('editTransactionStatusAsPaid', response.data);
-        revalidatePath('/dashboard/transactions')
-        // redirect('/dashboard/transactions')
-    }
-    // else if (response && response.message) {
-    //     throw new Error(response.message);
-    // }
-    else {
-        throw new Error('Failed to editTransactionStatusAsPaid');
+    } else {
+        throw new Error('Failed to editTransactionsStatus');
     }
 }
 
@@ -94,15 +61,9 @@ export async function editTransaction(id: string, formData: FormData) {
         description: description, amount: amount, status: status, date: new Date(date)
     });
     if (response && response.data) {
-        // console.log(response);
-        // console.log('updateTransaction', response.data);
         revalidatePath('/dashboard/transactions')
         redirect('/dashboard/transactions')
-    }
-    // else if (response && response.message) {
-    //     throw new Error(response.message);
-    // }
-    else {
+    } else {
         throw new Error('Failed to updateTransaction');
     }
 }
