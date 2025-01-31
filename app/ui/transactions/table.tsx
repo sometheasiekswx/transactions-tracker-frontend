@@ -38,6 +38,7 @@ export default function TransactionsTable({transactions}: { transactions: Transa
             <div className="flex justify-end items-center gap-2" onClick={() => {
                 setSelectedTransactionIds([])
             }}>
+                {/*TODO: Fix mobile view*/}
                 <MarkStatus status={"Paid"} selectedTransactionIds={selectedTransactionIds}/>
                 <MarkStatus status={"Pending"} selectedTransactionIds={selectedTransactionIds}/>
                 <MarkStatus status={"Unpaid"} selectedTransactionIds={selectedTransactionIds}/>

@@ -4,6 +4,7 @@ import {lusitana} from '@/app/ui/fonts';
 import {Revenue} from '@/app/lib/definitions';
 import {fetchAllTransactionsPeriodLast12Months} from "@/app/api/transactions";
 
+// TODO: Fix Mobile view
 export default async function SpendingChart() {
     const revenue: Revenue[] = await fetchAllTransactionsPeriodLast12Months()
     console.log(revenue)
