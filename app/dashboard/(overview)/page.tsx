@@ -1,5 +1,5 @@
 import CardWrapper from '@/app/ui/dashboard/cards';
-import RevenueChart from '@/app/ui/dashboard/revenue-chart';
+import SpendingChart from '@/app/ui/dashboard/spending-chart';
 import LatestCustomers from '@/app/ui/dashboard/latest-customers';
 import {lusitana} from '@/app/ui/fonts';
 import {
@@ -25,7 +25,7 @@ export default async function Page() {
         </div>
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
             <Suspense fallback={<RevenueChartSkeleton/>}>
-                <RevenueChart/>
+                <SpendingChart/>
             </Suspense>
             <Suspense fallback={<LatestInvoicesSkeleton/>}>
                 <LatestCustomers/>
