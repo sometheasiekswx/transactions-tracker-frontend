@@ -47,26 +47,3 @@ export async function fetchCustomers() {
         throw new Error('Failed to fetch the latest invoices.');
     }
 }
-
-export async function fetchCardData() {
-    try {
-        const startTime = performance.now();
-
-        const numberOfInvoices = invoices.length;
-        const numberOfCustomers = customers.length;
-        const totalPaidInvoices = invoices.filter(invoice => invoice.status == "paid").length;
-        const totalPendingInvoices = invoices.filter(invoice => invoice.status == "pending").length;
-
-        const data = await Promise.all([numberOfInvoices, numberOfCustomers, totalPaidInvoices, totalPendingInvoices,])
-
-        const endTime = performance.now();
-        const duration = endTime - startTime;
-
-        console.log(`fetchCardData completed in ${duration.toFixed(2)} ms`);
-
-        return data;
-    } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch card data.');
-    }
-}
