@@ -20,7 +20,7 @@ function TransactionList({transactions}: { transactions: Transaction[] }) {
     return (<div className="bg-white px-6">
         {transactions.map((transaction, i) => (<div
             key={transaction._id}
-            className={clsx('grid grid-cols-5 flex flex-row items-center justify-between py-4', {'border-t': i !== 0})}
+            className={clsx('grid grid-cols-6 flex flex-row items-center justify-between py-4', {'border-t': i !== 0})}
         >
             <div className="col-span-4 flex items-center justify-between">
                 <div className="min-w-0 flex-1">
@@ -32,7 +32,7 @@ function TransactionList({transactions}: { transactions: Transaction[] }) {
                     </p>
                 </div>
             </div>
-            <p className={`${lusitana.className} text-right text-sm font-medium md:text-base ml-4`}>
+            <p className={`col-span-2 ${lusitana.className} text-right text-sm font-medium md:text-base`}>
                 {formatTransactionCurrency(transaction.amount)}
             </p>
         </div>))}

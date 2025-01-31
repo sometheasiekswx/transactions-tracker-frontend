@@ -14,7 +14,7 @@ export default async function CardWrapper() {
         totalUnpaidTransactions
     } = await fetchAllTransactionsStatusCount();
     return (<>
-        <Card title="Total Transactions" value={totalTransactions} type="invoices"/>
+        <Card title="Total" value={totalTransactions} type="invoices"/>
         <Card title="Paid" value={totalPaidTransactions} type="collected"/>
         <Card title="Pending" value={totalPendingTransactions} type="pending"/>
         <Card title="Unpaid" value={totalUnpaidTransactions} type="customers"/>
