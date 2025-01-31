@@ -13,9 +13,7 @@ export default async function Page({searchParams,}: {
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
     const limit = Number(searchParams?.limit) || 10;
-    const {
-        totalTransactions, totalPages, transactions
-    } = await fetchAllTransactions(`?page=${currentPage}&limit=${limit}&query=${query}`);
+    const {totalPages, transactions} = await fetchAllTransactions(`?page=${currentPage}&limit=${limit}&query=${query}`);
 
     return (<div className="w-full">
         <div className="flex w-full items-center justify-between">
