@@ -1,4 +1,4 @@
-import {LatestInvoice, Revenue,} from './definitions';
+import {Customers, Revenue,} from './definitions';
 import {formatCurrency} from './utils';
 import {customers, invoices, revenue} from "@/app/lib/placeholder-data";
 
@@ -24,7 +24,7 @@ export async function fetchCustomers() {
     try {
         const startTime = performance.now();
 
-        const data: LatestInvoice[] = [];
+        const data: Customers[] = [];
         for (const invoice of invoices.splice(0, 5)) {
             const customer = customers.find((cust) => cust.id === invoice.customer_id);
             data.push({
