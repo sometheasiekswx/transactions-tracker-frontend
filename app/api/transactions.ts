@@ -1,7 +1,25 @@
 import axiosTransactionsTracker from "@/app/lib/axios/axiosTransactionsTracker";
 import {Status} from "@/app/lib/definitions";
 
-export async function fetchAllTransactions(queryParams: string) {
+export async function fetchAllTransactionsStatusCount() {
+    try {
+        const startTime = performance.now();
+
+        const response = await axiosTransactionsTracker.get(`/transactions/all/status`)
+
+        const endTime = performance.now();
+        const duration = endTime - startTime;
+        console.log(`fetchAllTransactionsStatusCount completed in ${duration.toFixed(2)} ms`);
+
+        return response.data;
+    } catch (error) {
+        const message = 'Failed to fetchAllTransactions\n' + error;
+        console.error(message);
+        throw new Error(message);
+    }
+}
+
+export async function fetchAllTransactions(queryParams: string = '') {
     try {
         const startTime = performance.now();
 
@@ -44,6 +62,8 @@ export async function addTransaction(description: string, amount: number, status
         let data = JSON.stringify({
             "date": date, "description": description, "amount": amount, "status": status,
         });
+
+        console.log(status)
 
         const response = await axiosTransactionsTracker.post(`/transaction`, data, {
             headers: {'Content-Type': 'application/json'}
