@@ -12,6 +12,7 @@ import {createTransaction} from '@/app/lib/actions';
 
 
 export default function CreateForm() {
+    // const
     return (<form action={createTransaction}>
         <div className="rounded-md bg-gray-50 p-4 md:p-6">
             {/* Date Picker */}
@@ -87,7 +88,6 @@ export default function CreateForm() {
                                 name="status"
                                 type="radio"
                                 value="Pending"
-                                checked
                                 className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                             />
                             <label
@@ -118,6 +118,7 @@ export default function CreateForm() {
                                 name="status"
                                 type="radio"
                                 value="Unpaid"
+                                defaultChecked
                                 className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                             />
                             <label
