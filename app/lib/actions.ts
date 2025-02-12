@@ -41,6 +41,11 @@ export async function removeTransaction(id: string) {
 }
 
 export async function editTransactionsStatus(ids: string[], status: Status) {
+    if (ids.length === 0) {
+        // TODO: Popup modal saying that a transaction needs to be selected to be marked
+        return
+    }
+
     const response = await updateTransactionsStatus(ids, status);
     if (response && response.data) {
         revalidatePath('/dashboard/transactions')

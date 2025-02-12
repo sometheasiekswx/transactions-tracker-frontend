@@ -35,26 +35,25 @@ export function TransactionsStatus({status, onClick}: {
 }) {
     return (<div>
         <button
-            className={clsx('flex h-10 items-center rounded-full px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ', {
+            className={clsx('flex h-8 md:h-10 items-center rounded-full px-2 md:px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ', {
                 'bg-gray-100 text-gray-500 hover:bg-gray-200 focus-visible:bg-gray-100': status === 'Unpaid',
                 'bg-yellow-300 text-gray-700 hover:bg-yellow-400 focus-visible:outline-yellow-300': status === 'Pending',
                 'bg-green-500 text-white hover:bg-green-600 focus-visible:outline-green-500': status === 'Paid',
             })}
             onClick={onClick}
         >
-            <span className="mr-1">Mark as</span>
-            {status === 'Pending' && (<>
-                <span className="">Pending</span>
+            {status === 'Pending' && (<div className={'inline-flex whitespace-nowrap'}>
+                <span className="">Mark Pending</span>
                 <ClockIcon className="ml-1 w-4 text-black"/>
-            </>)}
-            {status === 'Unpaid' && (<>
-                <span className="">Unpaid</span>
+            </div>)}
+            {status === 'Unpaid' && (<div className={'inline-flex whitespace-nowrap'}>
+                <span className="">Mark Unpaid</span>
                 <NoSymbolIcon className="ml-1 w-4 text-gray-500"/>
-            </>)}
-            {status === 'Paid' && (<>
-                <span className="">Paid</span>
+            </div>)}
+            {status === 'Paid' && (<div className={'inline-flex whitespace-nowrap'}>
+                <span className="">Mark Paid</span>
                 <CheckIcon className="ml-1 w-4 text-white"/>
-            </>)}
+            </div>)}
         </button>
     </div>);
 }
